@@ -1,0 +1,835 @@
+<!-- Template 1 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Birthday Celebration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #ff006e;
+            --neon-blue: #00f5ff;
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff88;
+            --neon-yellow: #ffff00;
+            --dark-bg: #0a0a0f;
+            --grid-color: #1a1a2e;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 10s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Gradient Overlay */
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, transparent 0%, rgba(10, 10, 15, 0.8) 100%);
+        }
+
+        /* Glowing Lines */
+        .glowing-lines {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            animation: slideLine 6s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes slideLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Digital Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0;
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .particle.active {
+            animation: particleFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1) rotate(90deg);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1) rotate(270deg);
+            }
+        }
+
+        /* Intro Screen */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.95);
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+
+        .countdown {
+            font-size: clamp(4rem, 20vw, 15rem);
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 
+                0 0 30px var(--neon-pink),
+                0 0 60px var(--neon-blue);
+            animation: countdownPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes countdownPulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% { 
+                transform: scale(1.2);
+                filter: brightness(1.5);
+            }
+        }
+
+        /* Gift Box */
+        .gift-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .gift-box {
+            width: clamp(80px, 25vw, 180px);
+            height: clamp(80px, 25vw, 180px);
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            animation: giftFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes giftFloat {
+            0%, 100% { 
+                transform: translateY(0) rotateY(0deg) scale(1);
+            }
+            25% { 
+                transform: translateY(-10px) rotateY(90deg) scale(1.05);
+            }
+            50% { 
+                transform: translateY(-20px) rotateY(180deg) scale(1.1);
+            }
+            75% { 
+                transform: translateY(-10px) rotateY(270deg) scale(1.05);
+            }
+        }
+
+        .box-body {
+            width: 100%;
+            height: 65%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            position: absolute;
+            bottom: 0;
+            border-radius: 5px;
+            box-shadow: 
+                0 0 30px var(--neon-purple),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .box-lid {
+            width: 105%;
+            height: 35%;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            position: absolute;
+            top: 0;
+            left: -2.5%;
+            border-radius: 5px;
+            transform-origin: bottom;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 
+                0 -10px 30px var(--neon-pink),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .gift-box:hover .box-lid {
+            transform: rotateX(-60deg);
+        }
+
+        .ribbon {
+            position: absolute;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-green));
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .ribbon-v {
+            width: 20%;
+            height: 100%;
+            left: 40%;
+        }
+
+        .ribbon-h {
+            width: 100%;
+            height: 20%;
+            top: 40%;
+        }
+
+        .ribbon-bow {
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            top: -15%;
+            left: 30%;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        /* Main Celebration Screen */
+        .main-screen {
+            display: none;
+            min-height: 100vh;
+            padding: clamp(1rem, 3vw, 3rem);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .birthday-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 6rem);
+            text-align: center;
+        }
+
+        .cyber-title {
+            font-size: clamp(2rem, 10vw, 6rem);
+            font-weight: bold;
+            margin-bottom: clamp(1rem, 3vw, 2rem);
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-green), var(--neon-yellow));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite, glitch 2s linear infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glitch {
+            0%, 100% { 
+                text-shadow: 
+                    2px 2px 0 var(--neon-pink),
+                    -2px -2px 0 var(--neon-blue);
+            }
+            25% { 
+                text-shadow: 
+                    -2px 2px 0 var(--neon-green),
+                    2px -2px 0 var(--neon-purple);
+            }
+            50% { 
+                text-shadow: 
+                    2px -2px 0 var(--neon-blue),
+                    -2px 2px 0 var(--neon-pink);
+            }
+            75% { 
+                text-shadow: 
+                    -2px -2px 0 var(--neon-purple),
+                    2px 2px 0 var(--neon-green);
+            }
+        }
+
+        .name-display {
+            font-size: clamp(1.5rem, 7vw, 4rem);
+            color: var(--neon-green);
+            margin-bottom: clamp(1.5rem, 4vw, 3rem);
+            text-shadow: 
+                0 0 20px var(--neon-green),
+                0 0 40px var(--neon-green);
+            animation: nameGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes nameGlow {
+            from { 
+                filter: brightness(1) drop-shadow(0 0 20px var(--neon-green));
+            }
+            to { 
+                filter: brightness(1.5) drop-shadow(0 0 40px var(--neon-green));
+            }
+        }
+
+        .cyber-button {
+            padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(0.9rem, 3vw, 1.3rem);
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: clamp(0.3rem, 1vw, 0.5rem);
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%, 10px 50%);
+        }
+
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+
+        .cyber-button:hover {
+            box-shadow: 
+                0 0 20px var(--neon-blue),
+                inset 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-3px);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            margin-top: clamp(1rem, 3vw, 2rem);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            animation: confettiFall 4s linear;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 320px) {
+            .birthday-container {
+                padding: 1rem;
+            }
+            
+            .cyber-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (min-width: 480px) {
+            .gift-box {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .button-group {
+                flex-direction: row;
+            }
+            
+            .cyber-grid {
+                background-size: 60px 60px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .cyber-title {
+                font-size: 5rem;
+            }
+            
+            .cyber-grid {
+                background-size: 80px 80px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .cyber-title {
+                font-size: 6rem;
+            }
+            
+            .cyber-grid {
+                background-size: 100px 100px;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-out {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        /* Message Modal */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 10, 15, 0.95);
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            padding: clamp(1rem, 3vw, 2rem);
+            z-index: 2000;
+            animation: modalAppear 0.5s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .modal h3 {
+            color: var(--neon-green);
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: white;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            line-height: 1.5;
+        }
+
+        .modal .close-btn {
+            margin-top: 1.5rem;
+            background: var(--neon-green);
+            color: var(--dark-bg);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .modal .close-btn:hover {
+            background: var(--neon-blue);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="cyber-grid"></div>
+    <div class="gradient-overlay"></div>
+    <div class="glowing-lines" id="glowingLines"></div>
+    <div id="particles"></div>
+
+    <!-- Intro Screen -->
+    <div class="intro-screen" id="introScreen">
+        <div class="countdown" id="countdown">5</div>
+        <div class="gift-container" id="giftContainer">
+            <div class="gift-box" id="giftBox">
+                <div class="box-body">
+                    <div class="ribbon ribbon-v"></div>
+                    <div class="ribbon ribbon-h"></div>
+                </div>
+                <div class="box-lid">
+                    <div class="ribbon-bow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Celebration Screen -->
+    <div class="main-screen" id="mainScreen">
+        <div class="birthday-container">
+            <h1 class="cyber-title">Happy Birthday</h1>
+            <div class="name-display" id="nameDisplay">{{name}}</div>
+            <div class="button-group">
+                <button class="cyber-button" onclick="celebrateMore()">Celebrate!</button>
+                <button class="cyber-button" onclick="showMessage()">Make a Wish</button>
+                <button class="cyber-button" onclick="showMessage()">Special Message</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dynamic Name Function
+        const urlParams = new URLSearchParams(window.location.search);
+        const userName = urlParams.get('name') || 'Friend';
+        
+        // Replace {{name}} placeholders
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameDisplay = document.getElementById('nameDisplay');
+            if (nameDisplay) {
+                nameDisplay.textContent = userName;
+            }
+        });
+
+        // Create glowing lines
+        function createGlowingLines() {
+            const container = document.getElementById('glowingLines');
+            const colors = ['var(--neon-pink)', 'var(--neon-blue)', 'var(--neon-purple)', 'var(--neon-green)'];
+            
+            for (let i = 0; i < 15; i++) {
+                const line = document.createElement('div');
+                line.className = 'line';
+                line.style.top = `${Math.random() * 100}%`;
+                line.style.width = `${Math.random() * 30 + 10}%`;
+                line.style.background = `linear-gradient(90deg, transparent, ${colors[Math.floor(Math.random() * colors.length)]}, transparent)`;
+                line.style.animationDelay = `${Math.random() * 6}s`;
+                line.style.animationDuration = `${6 + Math.random() * 4}s`;
+                container.appendChild(line);
+            }
+        }
+
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['var(--neon-pink)', 'var(--neon-blue)', 'var(--neon-purple)', 'var(--neon-green)', 'var(--neon-yellow)'];
+            
+            setInterval(() => {
+                if (document.querySelectorAll('.particle').length < 25) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle active';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.width = `${Math.random() * 6 + 2}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.boxShadow = `0 0 15px ${particle.style.background}`;
+                    container.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 5000);
+                }
+            }, 300);
+        }
+
+        // Countdown sequence
+        function startCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            const giftContainer = document.getElementById('giftContainer');
+            let count = 5;
+            
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownEl.textContent = count;
+                    // Add pulse effect
+                    countdownEl.style.transform = 'scale(1.5)';
+                    setTimeout(() => {
+                        countdownEl.style.transform = 'scale(1)';
+                    }, 200);
+                } else {
+                    clearInterval(countInterval);
+                    countdownEl.style.display = 'none';
+                    giftContainer.style.display = 'block';
+                }
+            }, 1000);
+        }
+
+        // Gift box click handler
+        document.getElementById('giftBox').addEventListener('click', () => {
+            const introScreen = document.getElementById('introScreen');
+            const mainScreen = document.getElementById('mainScreen');
+            
+            // Animate gift box opening
+            const lid = document.querySelector('.box-lid');
+            lid.style.transform = 'rotateX(-120deg)';
+            
+            // Create explosion effect
+            createExplosion();
+            
+            setTimeout(() => {
+                introScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    introScreen.classList.add('hidden');
+                    mainScreen.style.display = 'block';
+                    createConfetti();
+                    // Add entrance animation
+                    mainScreen.style.animation = 'fadeIn 1s ease';
+                }, 500);
+            }, 600);
+        });
+
+        // Explosion effect
+        function createExplosion() {
+            const colors = ['#ff006e', '#00f5ff', '#9d00ff', '#00ff88', '#ffff00'];
+            const giftBox = document.getElementById('giftBox');
+            const rect = giftBox.getBoundingClientRect();
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    width: ${Math.random() * 10 + 5}px;
+                    height: ${Math.random() * 10 + 5}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${rect.left + rect.width / 2}px;
+                    top: ${rect.top + rect.height / 2}px;
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1001;
+                `;
+                document.body.appendChild(particle);
+                
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = Math.random() * 200 + 100;
+                const lifetime = Math.random() * 1000 + 1000;
+                
+                particle.animate([
+                    { 
+                        transform: 'translate(0, 0) scale(1)',
+                        opacity: 1
+                    },
+                    { 
+                        transform: `translate(${Math.cos(angle) * velocity}px, ${Math.sin(angle) * velocity}px) scale(0)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: lifetime,
+                    easing: 'cubic-bezier(0, .9, .57, 1)'
+                });
+                
+                setTimeout(() => particle.remove(), lifetime);
+            }
+        }
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#ff006e', '#00f5ff', '#9d00ff', '#00ff88', '#ffff00', '#ff00ff', '#00ffff'];
+            const confettiCount = window.innerWidth < 768 ? 30 : 60;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                    confetti.style.animationDuration = `${3 + Math.random() * 2}s`;
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = confetti.style.width;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 20);
+            }
+        }
+
+        // Button actions
+        function celebrateMore() {
+            createConfetti();
+            const title = document.querySelector('.cyber-title');
+            title.style.animation = 'none';
+            setTimeout(() => {
+                title.style.animation = 'gradientShift 3s ease infinite, glitch 2s linear infinite';
+            }, 10);
+            
+            // Add screen shake
+            document.body.animate([
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(-5px)' },
+                { transform: 'translateX(5px)' },
+                { transform: 'translateX(0)' }
+            ], {
+                duration: 200,
+                iterations: 3
+            });
+        }
+
+        function makeWish() {
+            const wish = prompt(`Make a birthday wish, ${userName}!`);
+            if (wish) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <h3>✨ Your Wish ✨</h3>
+                    <p>"${wish}"</p>
+                    <p style="margin-top: 1rem; color: var(--neon-pink);">May the universe conspire to make it come true!</p>
+                    <button class="close-btn" onclick="this.parentElement.remove()">Close</button>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
+
+        function shareJoy() {
+            const shareText = `🎉 Celebrating ${userName}'s birthday with cyber vibes! 🚀✨`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Cyber Birthday Celebration',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(shareText + ' ' + window.location.href);
+                
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--neon-blue);
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 5px;
+                    animation: fadeIn 0.5s ease;
+                    z-index: 2000;
+                    box-shadow: 0 0 20px var(--neon-blue);
+                `;
+                notification.textContent = '📋 Link copied to clipboard!';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.5s ease';
+                    setTimeout(() => notification.remove(), 500);
+                }, 2000);
+            }
+        }
+
+        function showMessage() {
+            const messages = [
+                `You're not just a year older, you're a year more awesome! 🎉`,
+                `Another year of being legendary! Keep shining! ⭐`,
+                `Age is just a number, but awesomeness is forever! 🚀`,
+                `May your birthday be as epic as you are! 💫`,
+                `You're like a fine wine - getting better with time! 🍷`
+            ];
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <h3>🎂 Special Message for ${userName} 🎂</h3>
+                <p>${messages[Math.floor(Math.random() * messages.length)]}</p>
+                <button class="close-btn" onclick="this.parentElement.remove()">Awesome!</button>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Initialize
+        createGlowingLines();
+        createParticles();
+        startCountdown();
+
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add keyboard support for gift box
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const giftContainer = document.getElementById('giftContainer');
+                if (giftContainer.style.display !== 'none') {
+                    document.getElementById('giftBox').click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
